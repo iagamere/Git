@@ -121,6 +121,7 @@ ol.st{padding:0 18px 0 0;margin:6px 0 10px;font-size:.86rem;color:var(--mu)}
     <input id="cid" placeholder="Client ID" dir="ltr" autocomplete="off">
     <button class="btn" onclick="saveCid()"><span>حفظ ومتابعة</span></button>
   </div>
+  <div id="retryBox" class="hid"><button class="btn" onclick="retryLogin()">إعادة المحاولة</button></div>
   <p class="err" id="e1"></p>
 </section>
 
@@ -228,15 +229,32 @@ async function startDevice(){
   }
 }
 
-async function login(t){
-  token=(typeof t==='string'?t:$('tok').value).trim();$('e1').textContent='⏳ جاري التحقق...';
+const PREF=NATIVE?Capacitor.registerPlugin('Preferences'):null;
+async function kvGet(k){if(PREF){try{const r=await PREF.get({key:k});if(r.value!=null)return r.value}catch(e){}}return store.get(k)}
+async function kvSet(k,v){store.set(k,v);if(PREF){try{await PREF.set({key:k,value:v})}catch(e){}}}
+async function kvDel(k){store.del(k);if(PREF){try{await PREF.remove({key:k})}catch(e){}}}
+let pendingToken='';
+async function login(t,silent){
+  token=(typeof t==='string'?t:$('tok').value).trim();$('e1').textContent='جاري التحقق...';$('retryBox').classList.add('hid');
   if(!token){$('e1').textContent='أدخل التوكن';return}
-  try{
-    user=await gh('/user');$('e1').textContent='';store.set('gh_token',token);
-    $('hello').textContent=user.login;$('av').src=user.avatar_url||'';go(2);
-  }catch(e){user=null;token='';store.del('gh_token');go(1);$('e1').textContent='فشل الدخول: '+e.message}
+  let lastErr=null;
+  for(let i=0;i<(silent?4:1);i++){
+    try{
+      user=await gh('/user');$('e1').textContent='';pendingToken='';await kvSet('gh_token',token);
+      $('hello').textContent=user.login;$('av').src=user.avatar_url||'';go(2);return;
+    }catch(e){
+      lastErr=e;
+      if(e.status===401)break;
+      if(i<3&&silent)await sleep(1500);
+    }
+  }
+  user=null;go(1);
+  if(lastErr&&lastErr.status===401){token='';await kvDel('gh_token');$('e1').textContent='انتهت صلاحية الدخول، سجّل دخولك من جديد'}
+  else if(silent){pendingToken=token;token='';$('retryBox').classList.remove('hid');$('e1').textContent='تعذّر الاتصال بـ GitHub، تحقق من الإنترنت'}
+  else{token='';$('e1').textContent='فشل الدخول: '+(lastErr&&lastErr.message)}
 }
-function logout(){endDev();store.del('gh_token');user=null;token='';repos=[];$('tok').value='';go(1)}
+function retryLogin(){if(pendingToken)login(pendingToken,true)}
+function logout(){endDev();kvDel('gh_token');user=null;token='';pendingToken='';repos=[];$('tok').value='';go(1)}
 async function loadRepos(){
   repos=[];
   for(let p=1;p<=5;p++){
@@ -371,7 +389,7 @@ jobs:
 
 async function upload(){
   $('e4').textContent='';$('log').textContent='';
-  zipFile=$('zip').files[0];
+  zipFile=pickedFile||$('zip').files[0];
   if(!zipFile){$('e4').textContent='اختر ملف ZIP أولاً';return}
   $('upBtn').disabled=true;$('bar').classList.remove('hid');prog(0);hasBuild=false;await ensureNotif();
   try{
@@ -592,18 +610,44 @@ function showDone(full,branch,pagesOn,priv,sha){
   go(5);
   watchBuild(full,sha);
 }
-async function onPick(){
-  const f=$('zip').files[0];$('e4').textContent='';
-  $('drop').classList.toggle('has',!!f);
+let pickedFile=null;
+const FP=NATIVE?Capacitor.registerPlugin('FilePicker'):null;
+async function showPicked(f){
+  $('e4').textContent='';$('drop').classList.toggle('has',!!f);
   if(!f){$('zname').textContent='اضغط لاختيار ملف ZIP';return}
   $('zname').textContent=`${f.name} (${(f.size/1048576).toFixed(1)} MB)`;
   try{const b=new Uint8Array(await f.slice(0,2).arrayBuffer());if(b[0]!==0x50||b[1]!==0x4B)$('e4').textContent='هذا الملف ليس ZIP صالحاً'}
-  catch(e){$('e4').textContent='تعذّرت قراءة الملف، انقله إلى مجلد Download ثم اخترْه من جديد'}
+  catch(e){$('e4').textContent='تعذّرت قراءة الملف، جرّب اختياره مرة أخرى'}
 }
+async function onPick(){pickedFile=null;await showPicked($('zip').files[0])}
 $('zip').addEventListener('change',onPick);$('zip').addEventListener('input',onPick);
+let pickData=false;
+async function nativePick(){
+  try{
+    const r=await FP.pickFiles({limit:1,readData:pickData});
+    const f=r.files&&r.files[0];if(!f)return;
+    let blob;
+    if(pickData){
+      const bin=atob(f.data||'');const u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+      blob=new Blob([u]);
+    }else{
+      const res=await fetch(Capacitor.convertFileSrc(f.path));
+      if(!res.ok)throw new Error('read');
+      blob=await res.blob();
+    }
+    if(!blob.size)throw new Error('empty');
+    pickedFile=new File([blob],f.name||'project.zip',{type:'application/zip'});
+    await showPicked(pickedFile);
+  }catch(e){
+    if(e&&/cancel/i.test(String(e.message||e)))return;
+    if(!pickData){pickData=true;$('e4').textContent='تعذّرت القراءة، اضغط لاختيار الملف مرة ثانية'}
+    else $('e4').textContent='تعذّرت قراءة الملف، جرّب نقله إلى مجلد Download'
+  }
+}
+if(NATIVE){$('zip').classList.add('hid');$('drop').addEventListener('click',nativePick)}
 go(1);
 // دخول تلقائي
-const saved=store.get('gh_token');if(saved)login(saved);
+(async()=>{const saved=await kvGet('gh_token');if(saved)login(saved,true)})();
 </script>
 </body>
 </html>
