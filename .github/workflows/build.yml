@@ -19,10 +19,12 @@ jobs:
           java-version: 17
       - run: npm install
       - run: npx cap add android
-      - name: Notification permission
+      - name: Android permissions
         run: |
           M=android/app/src/main/AndroidManifest.xml
-          grep -q POST_NOTIFICATIONS $M || sed -i 's|<uses-permission android:name="android.permission.INTERNET" />|&\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />|' $M
+          for P in POST_NOTIFICATIONS REQUEST_INSTALL_PACKAGES; do
+            grep -q $P $M || sed -i "s|<uses-permission android:name=\"android.permission.INTERNET\" />|&\n    <uses-permission android:name=\"android.permission.$P\" />|" $M
+          done
           grep -n "uses-permission" $M
       - run: npx cap sync android
       - run: |

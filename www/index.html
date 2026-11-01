@@ -51,6 +51,8 @@ button{font:inherit}
 .opt{display:flex;gap:10px;align-items:center;margin:10px 0;font-size:.92rem}
 .opt input{width:18px;height:18px;margin:0;accent-color:var(--pr)}
 .drop{display:flex;flex-direction:column;align-items:center;gap:8px;padding:26px 14px;border:1.5px dashed var(--bd);border-radius:16px;background:var(--in);color:var(--mu);text-align:center;margin:8px 0 12px;transition:.2s}
+.drop{position:relative;overflow:hidden}
+.fin{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;padding:0;border:0;cursor:pointer;font-size:0}
 .drop.has{border-color:var(--pr);color:var(--tx);background:rgba(79,107,255,.07)}
 .drop .tile{width:52px;height:52px}
 .drop span{word-break:break-all;font-size:.92rem}
@@ -147,7 +149,7 @@ ol.st{padding:0 18px 0 0;margin:6px 0 10px;font-size:.86rem;color:var(--mu)}
 
 <section class="card hid" id="s4">
   <h2>ملف المشروع</h2>
-  <label class="drop" id="drop"><input type="file" id="zip" accept=".zip,application/zip" class="hid"><div class="tile"><svg class="ic "><use href="#i-zip"/></svg></div><span id="zname">اضغط لاختيار ملف ZIP</span></label>
+  <div class="drop" id="drop"><div class="tile"><svg class="ic "><use href="#i-zip"/></svg></div><span id="zname">اضغط لاختيار ملف ZIP</span><input type="file" id="zip" class="fin"></div>
   <label class="opt"><input type="checkbox" id="replace"><span>حذف الملفات القديمة واستبدالها بالكامل</span></label>
   <label class="opt"><input type="checkbox" id="pages" checked><span>تفعيل رابط التطبيق (GitHub Pages)</span></label>
   <label class="opt"><input type="checkbox" id="autoapk" checked><span>بناء APK تلقائياً حسب نوع المشروع</span></label>
@@ -162,7 +164,8 @@ ol.st{padding:0 18px 0 0;margin:6px 0 10px;font-size:.86rem;color:var(--mu)}
   <div class="done"><div class="tile"><svg class="ic "><use href="#i-check"/></svg></div><div><h2>تم الرفع بنجاح</h2><p class="sub" id="note"></p></div></div>
   <div class="bs" id="bs"></div>
   <div id="bsx"></div>
-  <a class="btn dis" id="apkBtn" target="_blank" rel="noopener"><svg class="ic "><use href="#i-download"/></svg><span>تحميل التطبيق (APK)</span></a>
+  <a class="btn dis" id="apkBtn" target="_blank" rel="noopener"><svg class="ic "><use href="#i-download"/></svg><span id="apkLbl">تحميل التطبيق (APK)</span></a>
+  <div class="bar hid" id="dbar"><i id="dbi"></i></div>
   <div id="links"></div>
   <button class="btn sec" onclick="go(2)"><svg class="ic "><use href="#i-upload"/></svg><span>رفع مشروع آخر</span></button>
 </section>
@@ -478,7 +481,7 @@ const notify=o=>{if(LN&&notifOK)LN.schedule({notifications:[o]}).catch(()=>{})};
 const nCancel=ids=>{if(LN)LN.cancel({notifications:ids.map(id=>({id}))}).catch(()=>{})};
 if(LN)LN.addListener('localNotificationActionPerformed',async e=>{
   const ex=(e.notification&&e.notification.extra)||{};
-  if(e.actionId==='download'&&ex.url)window.open(ex.url,'_blank');
+  if(e.actionId==='download'&&ex.url)downloadApk(ex.url);
   else if(e.actionId==='copy'){await sleep(700);const ok=await copyText(lastErr||store.get('last_err')||'');toast(ok?'تم نسخ الخلل':'تعذّر النسخ')}
 });
 function setBS(kind,title,sub){
@@ -497,6 +500,26 @@ function buildLogText(head,log){
   const tail=lines.slice(-120);
   return (head+'\n--- errors ---\n'+errs.join('\n')+'\n\n--- last lines ---\n'+tail.join('\n')).slice(0,15000);
 }
+let dlBusy=false;
+const FS=NATIVE?Capacitor.registerPlugin('Filesystem'):null,FO=NATIVE?Capacitor.registerPlugin('FileOpener'):null;
+function setDl(p,txt){$('dbar').classList.toggle('hid',p===null);if(p!==null)$('dbi').style.width=p+'%';$('apkLbl').textContent=txt||'تحميل التطبيق (APK)'}
+async function downloadApk(url){
+  url=url||APKURL;
+  if(!NATIVE){window.open(url,'_blank');return}
+  if(dlBusy)return;dlBusy=true;let h;
+  try{
+    setDl(0,'جاري التحميل...');
+    h=await FS.addListener('progress',e=>{if(e.contentLength>0){const q=Math.round(e.bytes/e.contentLength*100);setDl(q,`جاري التحميل ${q}%`)}});
+    await FS.downloadFile({url,path:'app-update.apk',directory:'CACHE',progress:true});
+    const u=await FS.getUri({path:'app-update.apk',directory:'CACHE'});
+    setDl(100,'جاري فتح المثبّت...');
+    await FO.open({filePath:u.uri,contentType:'application/vnd.android.package-archive',openWithDefault:true});
+    toast('اضغط «تثبيت». وإن طلب الهاتف السماح فعّله ثم أعد الضغط');
+  }catch(e){toast('تعذّر التحميل داخل التطبيق، سيفتح المتصفح');window.open(url,'_blank')}
+  finally{try{h&&h.remove()}catch(e){}setTimeout(()=>{setDl(null);dlBusy=false},1200)}
+}
+$('apkBtn').addEventListener('click',e=>{if(NATIVE){e.preventDefault();downloadApk()}});
+
 async function copyText(t){
   try{await navigator.clipboard.writeText(t);return true}catch{}
   try{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();const ok=document.execCommand('copy');a.remove();return ok}catch{return false}
@@ -569,7 +592,15 @@ function showDone(full,branch,pagesOn,priv,sha){
   go(5);
   watchBuild(full,sha);
 }
-$('zip').onchange=()=>{const f=$('zip').files[0];$('zname').textContent=f?f.name:'اضغط لاختيار ملف ZIP';$('drop').classList.toggle('has',!!f)};
+async function onPick(){
+  const f=$('zip').files[0];$('e4').textContent='';
+  $('drop').classList.toggle('has',!!f);
+  if(!f){$('zname').textContent='اضغط لاختيار ملف ZIP';return}
+  $('zname').textContent=`${f.name} (${(f.size/1048576).toFixed(1)} MB)`;
+  try{const b=new Uint8Array(await f.slice(0,2).arrayBuffer());if(b[0]!==0x50||b[1]!==0x4B)$('e4').textContent='هذا الملف ليس ZIP صالحاً'}
+  catch(e){$('e4').textContent='تعذّرت قراءة الملف، انقله إلى مجلد Download ثم اخترْه من جديد'}
+}
+$('zip').addEventListener('change',onPick);$('zip').addEventListener('input',onPick);
 go(1);
 // دخول تلقائي
 const saved=store.get('gh_token');if(saved)login(saved);
