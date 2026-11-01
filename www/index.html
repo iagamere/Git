@@ -165,7 +165,7 @@ async function gh(path,opt={}){
   return r.status===204?null:r.json();
 }
 const NATIVE=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform());
-const CLIENT_ID_DEFAULT='';
+const CLIENT_ID_DEFAULT='Ov23lishfKw8GEIfE078';
 const cid=()=>CLIENT_ID_DEFAULT||store.get('gh_cid')||'';
 let devTimer=null,devCancel=true;
 function toggleTok(){$('tokBox').classList.toggle('hid')}
