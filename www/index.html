@@ -68,6 +68,16 @@ button{font:inherit}
 .lk .u{display:block;direction:ltr;text-align:left;color:var(--pr);font-size:.76rem;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-decoration:none}
 .lk .act{display:flex;gap:6px}
 .fl{transform:scaleX(-1)}
+.bs{display:flex;gap:12px;align-items:center;padding:14px;border-radius:15px;border:1px solid var(--bd);background:var(--in);margin:8px 0 10px}
+.bs b{display:block}.bs small{color:var(--mu);font-size:.8rem}
+.bs.ok{border-color:var(--ok)}.bs.err{border-color:var(--er)}
+.bs.ok .tile{background:rgba(19,161,90,.14);color:var(--ok)}
+.bs.err .tile{background:rgba(224,54,75,.12);color:var(--er)}
+.sp{width:46px;height:46px;flex:none;display:grid;place-items:center}
+.sp::after{content:"";width:24px;height:24px;border:3px solid var(--bd);border-top-color:var(--pr);border-radius:50%;animation:r 1s linear infinite}
+@keyframes r{to{transform:rotate(360deg)}}
+.btn.dis,.lk.off{opacity:.4;pointer-events:none;filter:grayscale(.7)}
+.logv{direction:ltr;text-align:left;font:.7rem/1.5 ui-monospace,Menlo,monospace;background:var(--in);border:1px solid var(--bd);border-radius:12px;padding:10px;max-height:190px;overflow:auto;white-space:pre-wrap;word-break:break-all;color:var(--mu);margin:0 0 6px}
 .code{font-family:ui-monospace,Menlo,monospace;font-size:2rem;font-weight:800;letter-spacing:.2em;text-align:center;direction:ltr;padding:16px;border-radius:15px;background:var(--in);border:1.5px dashed var(--pr);color:var(--pr);margin:8px 0}
 .lnk{background:none;border:0;color:var(--mu);width:100%;padding:12px;margin-top:4px;font-size:.88rem;text-decoration:underline}
 a.btn{text-decoration:none}
@@ -75,7 +85,7 @@ ol.st{padding:0 18px 0 0;margin:6px 0 10px;font-size:.86rem;color:var(--mu)}
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></symbol><symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol><symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3L21 2"/><path d="M17 6l3 3"/></symbol><symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/><path d="M3 12A9 9 0 0 1 18.5 5.8L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol><symbol id="i-repo" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></symbol><symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol><symbol id="i-activity" viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></symbol><symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></symbol><symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M10 14L20 4"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol><symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4"/><path d="M16 8l4 4-4 4"/><path d="M20 12H9"/></symbol><symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></symbol><symbol id="i-zip" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M10 12h2M10 15h2M10 18h2"/></symbol></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></symbol><symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol><symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3L21 2"/><path d="M17 6l3 3"/></symbol><symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/><path d="M3 12A9 9 0 0 1 18.5 5.8L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol><symbol id="i-repo" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></symbol><symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol><symbol id="i-activity" viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></symbol><symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></symbol><symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M10 14L20 4"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol><symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4"/><path d="M16 8l4 4-4 4"/><path d="M20 12H9"/></symbol><symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></symbol><symbol id="i-zip" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M10 12h2M10 15h2M10 18h2"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></symbol></svg>
 <main>
 <header>
   <div class="brand"><div class="logo"><svg class="ic "><use href="#i-box"/></svg></div><div><h1>رافع GitHub</h1><p class="sub">من ملف ZIP إلى تطبيق جاهز</p></div></div>
@@ -148,6 +158,9 @@ ol.st{padding:0 18px 0 0;margin:6px 0 10px;font-size:.86rem;color:var(--mu)}
 
 <section class="card hid" id="s5">
   <div class="done"><div class="tile"><svg class="ic "><use href="#i-check"/></svg></div><div><h2>تم الرفع بنجاح</h2><p class="sub" id="note"></p></div></div>
+  <div class="bs" id="bs"></div>
+  <div id="bsx"></div>
+  <a class="btn dis" id="apkBtn" target="_blank" rel="noopener"><svg class="ic "><use href="#i-download"/></svg><span>تحميل التطبيق (APK)</span></a>
   <div id="links"></div>
   <button class="btn sec" onclick="go(2)"><svg class="ic "><use href="#i-upload"/></svg><span>رفع مشروع آخر</span></button>
 </section>
@@ -158,7 +171,7 @@ let token='',user=null,repos=[],mode='',zipFile=null;
 const ic=(n,c='')=>`<svg class="ic ${c}"><use href="#i-${n}"/></svg>`;
 const store={get:k=>{try{return localStorage.getItem(k)}catch{return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch{}},del:k=>{try{localStorage.removeItem(k)}catch{}}};
 
-function go(n){for(let i=1;i<=5;i++)$('s'+i).classList.toggle('hid',i!==n);$('out').classList.toggle('hid',!user);[...$('steps').children].forEach((e,i)=>e.classList.toggle('on',i<Math.min(n,4)||n===5))}
+function go(n){for(let i=1;i<=5;i++)$('s'+i).classList.toggle('hid',i!==n);$('out').classList.toggle('hid',!user);if(n!==5)watchId++;[...$('steps').children].forEach((e,i)=>e.classList.toggle('on',i<Math.min(n,4)||n===5))}
 async function gh(path,opt={}){
   const r=await fetch('https://api.github.com'+path,{...opt,headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json','Content-Type':'application/json'}});
   if(!r.ok){let m='';try{m=(await r.json()).message}catch{}const e=new Error(m||('HTTP '+r.status));e.status=r.status;throw e}
@@ -354,7 +367,7 @@ async function upload(){
   $('e4').textContent='';$('log').textContent='';
   zipFile=$('zip').files[0];
   if(!zipFile){$('e4').textContent='اختر ملف ZIP أولاً';return}
-  $('upBtn').disabled=true;$('bar').classList.remove('hid');prog(0);
+  $('upBtn').disabled=true;$('bar').classList.remove('hid');prog(0);hasBuild=false;
   try{
     log('قراءة الملف...');
     const z=await JSZip.loadAsync(zipFile);
@@ -399,6 +412,7 @@ async function upload(){
     }
     await Promise.all(Array.from({length:5},worker));
 
+    hasBuild=names.some(n=>/(^|\/)\.github\/workflows\//.test(n));
     if($('autoapk').checked){
       const paths=names.map(n=>strip?n.slice(strip.length):n);
       if(paths.some(x=>x.startsWith('.github/workflows/')))log('يوجد ملف بناء في المشروع، تُرك كما هو');
@@ -408,7 +422,7 @@ async function upload(){
           const yml=workflow(d);
           const bl=await gh(`/repos/${full}/git/blobs`,{method:'POST',body:JSON.stringify({content:btoa(unescape(encodeURIComponent(yml))),encoding:'base64'})});
           tree.push({path:'.github/workflows/build-apk.yml',mode:'100644',type:'blob',sha:bl.sha});
-          log(`نوع المشروع: ${d.label} — أُضيف ملف بناء APK`);
+          hasBuild=true;log(`نوع المشروع: ${d.label} — أُضيف ملف بناء APK`);
         }else log('لم أتعرف على نوع المشروع، لم يُضف بناء APK');
       }
     }
@@ -430,13 +444,82 @@ async function upload(){
       catch(e){pagesOn=(e.status===409||e.status===422)}
     }
     prog(100);
-    showDone(full,branch,pagesOn,repo.private);
+    showDone(full,branch,pagesOn,repo.private,c.sha);
   }catch(e){
     $('e4').textContent=''+e.message;
   }finally{$('upBtn').disabled=false}
 }
 
-function showDone(full,branch,pagesOn,priv){
+let watchId=0,hasBuild=false,APKURL='';
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function setBS(kind,title,sub){
+  const el=$('bs');el.className='bs '+kind;
+  el.innerHTML=(kind==='run'?'<div class="sp"></div>':'<div class="tile">'+ic(kind==='ok'?'check':'alert')+'</div>')+`<div><b>${title}</b><small>${sub||''}</small></div>`;
+}
+function apkReady(ok,hide){
+  const b=$('apkBtn'),r=$('apkRow');
+  b.classList.toggle('dis',!ok);b.classList.toggle('hid',!!hide);
+  if(ok)b.href=APKURL;else b.removeAttribute('href');
+  if(r){r.classList.toggle('off',!ok);r.classList.toggle('hid',!!hide)}
+}
+function buildLogText(head,log){
+  const lines=log.split('\n').map(l=>l.replace(/^\d{4}-\d\d-\d\dT[\d:.]+Z /,'').replace(/\r$/,''));
+  const errs=[...new Set(lines.filter(l=>l.includes('##[error]')||/(^|\s)(e: |error:|FAILURE:|What went wrong)/i.test(l)))].slice(0,40);
+  const tail=lines.slice(-120);
+  return (head+'\n--- errors ---\n'+errs.join('\n')+'\n\n--- last lines ---\n'+tail.join('\n')).slice(0,15000);
+}
+async function copyText(t){
+  try{await navigator.clipboard.writeText(t);return true}catch{}
+  try{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();const ok=document.execCommand('copy');a.remove();return ok}catch{return false}
+}
+async function showFail(full,run){
+  setBS('err','فشل البناء','جاري قراءة سجل الخطأ...');
+  let head=`Build failed: ${full}\nWorkflow: ${run.name}\nRun: ${run.html_url}\n`,text=head;
+  try{
+    const jobs=(await gh(`/repos/${full}/actions/runs/${run.id}/jobs`)).jobs||[];
+    const job=jobs.find(j=>j.conclusion==='failure')||jobs[0];
+    const step=job&&(job.steps||[]).find(x=>x.conclusion==='failure');
+    head=`Build failed: ${full}\nWorkflow: ${run.name}\nFailed step: ${step?step.name:'unknown'}\nRun: ${run.html_url}\n`;
+    text=head;
+    let log='';
+    try{const r=await fetch(`https://api.github.com/repos/${full}/actions/jobs/${job.id}/logs`,{headers:{Authorization:'Bearer '+token}});if(r.ok)log=await r.text()}catch(e){}
+    if(log)text=buildLogText(head,log);
+    else{try{const an=await gh(`/repos/${full}/check-runs/${job.id}/annotations`);text=head+'\n'+an.map(a=>`${a.annotation_level}: ${a.message}`).join('\n')}catch(e){}}
+    setBS('err','فشل البناء',step?`في الخطوة: ${step.name}`:'');
+  }catch(e){setBS('err','فشل البناء','تعذّر قراءة السجل')}
+  apkReady(false);
+  $('bsx').innerHTML=`<pre class="logv" id="logv"></pre><div class="row"><button class="btn" id="cpLog">${ic('copy')}<span>نسخ سجل الخطأ</span></button><a class="btn sec" target="_blank" rel="noopener" href="${run.html_url}">${ic('ext')}<span>فتح على GitHub</span></a></div>`;
+  $('logv').textContent=text;
+  $('cpLog').onclick=async()=>{const ok=await copyText(text);const b=$('cpLog');b.innerHTML=ic(ok?'check':'alert')+`<span>${ok?'تم النسخ':'تعذّر النسخ، حدّد النص يدوياً'}</span>`;setTimeout(()=>b.innerHTML=ic('copy')+'<span>نسخ سجل الخطأ</span>',2000)};
+}
+async function watchBuild(full,sha){
+  const id=++watchId,t0=Date.now(),limit=hasBuild?240:45;
+  setBS('run','جاري بناء التطبيق','قد يستغرق 5 إلى 8 دقائق، لا تغلق التطبيق');apkReady(false);
+  while(id===watchId){
+    await sleep(7000);if(id!==watchId)return;
+    const sec=Math.floor((Date.now()-t0)/1000);
+    let runs=[];
+    try{runs=((await gh(`/repos/${full}/actions/runs?head_sha=${sha}&per_page=20`)).workflow_runs||[]).filter(x=>x.event==='push'||x.event==='workflow_dispatch')}catch(e){}
+    if(!runs.length){
+      if(sec>limit){
+        if(hasBuild)setBS('err','لم يبدأ البناء','تأكد أن GitHub Actions مفعّل في المشروع');
+        else{setBS('ok','تم الرفع','لا يوجد بناء تلقائي لهذا المشروع');apkReady(false,true)}
+        return;
+      }
+      continue;
+    }
+    if(runs.some(x=>x.status!=='completed')){
+      if(sec>2400){setBS('err','البناء يستغرق وقتاً طويلاً','تابعه من صفحة Actions');return}
+      setBS('run','جاري بناء التطبيق',`الوقت المنقضي ${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`);continue;
+    }
+    const bad=runs.find(x=>x.conclusion!=='success'&&x.conclusion!=='skipped');
+    if(!bad){setBS('ok','اكتمل البناء','التطبيق جاهز للتحميل');apkReady(true);return}
+    await showFail(full,bad);return;
+  }
+}
+
+function showDone(full,branch,pagesOn,priv,sha){
+  $('bsx').innerHTML='';APKURL=`https://github.com/${full}/releases/latest/download/app.apk`;
   const [o,n]=full.split('/');
   const items=[];
   items.push(['phone','تحميل APK مباشر','يعمل بعد انتهاء البناء (نحو 5 دقائق)',`https://github.com/${full}/releases/latest/download/app.apk`,1]);
@@ -449,7 +532,9 @@ function showDone(full,branch,pagesOn,priv){
     try{navigator.clipboard.writeText(b.dataset.u)}catch{}
     b.innerHTML=ic('check');setTimeout(()=>b.innerHTML=ic('copy'),1500)});
   $('note').textContent=priv?'المشروع خاص: الروابط تعمل لحسابك فقط':full;
+  const ar=$('links').querySelector('.lk.main');if(ar){ar.id='apkRow';ar.classList.add('off')}
   go(5);
+  watchBuild(full,sha);
 }
 $('zip').onchange=()=>{const f=$('zip').files[0];$('zname').textContent=f?f.name:'اضغط لاختيار ملف ZIP';$('drop').classList.toggle('has',!!f)};
 go(1);
