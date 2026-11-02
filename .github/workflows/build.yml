@@ -17,15 +17,24 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - run: npm install
+      - run: npm install --legacy-peer-deps
       - run: npx cap add android
-      - name: Android permissions
+      - name: Android manifest
         run: |
-          M=android/app/src/main/AndroidManifest.xml
-          for P in POST_NOTIFICATIONS REQUEST_INSTALL_PACKAGES; do
-            grep -q $P $M || sed -i "s|<uses-permission android:name=\"android.permission.INTERNET\" />|&\n    <uses-permission android:name=\"android.permission.$P\" />|" $M
-          done
-          grep -n "uses-permission" $M
+          python3 - <<'PY'
+          p='android/app/src/main/AndroidManifest.xml'
+          s=open(p).read()
+          if 'xmlns:tools' not in s:
+              s=s.replace('<manifest ','<manifest xmlns:tools="http://schemas.android.com/tools" ',1)
+          for P in ['POST_NOTIFICATIONS','REQUEST_INSTALL_PACKAGES','FOREGROUND_SERVICE','FOREGROUND_SERVICE_DATA_SYNC','WAKE_LOCK']:
+              if 'android.permission.'+P+'"' not in s:
+                  s=s.replace('</manifest>','    <uses-permission android:name="android.permission.'+P+'" />\n</manifest>')
+          svc='<service android:name="ar.com.anura.plugins.backgroundmode.BackgroundModeService" android:foregroundServiceType="dataSync" tools:node="merge" />'
+          if 'BackgroundModeService' not in s:
+              s=s.replace('</application>','    '+svc+'\n    </application>')
+          open(p,'w').write(s)
+          PY
+          cat android/app/src/main/AndroidManifest.xml
       - run: npx cap sync android
       - run: |
           cd android

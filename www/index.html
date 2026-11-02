@@ -245,7 +245,7 @@ async function login(t,silent){
   for(let i=0;i<(silent?4:1);i++){
     try{
       user=await gh('/user');$('e1').textContent='';pendingToken='';await kvSet('gh_token',token);
-      $('hello').textContent=user.login;$('av').src=user.avatar_url||'';go(2);return;
+      $('hello').textContent=user.login;$('av').src=user.avatar_url||'';go(2);if(silent)resumePending();return;
     }catch(e){
       lastErr=e;
       if(e.status===401)break;
@@ -564,13 +564,35 @@ async function showFail(full,run){
   apkReady(false);
   $('bsx').innerHTML=`<pre class="logv" id="logv"></pre><div class="row"><button class="btn" id="cpLog">${ic('copy')}<span>نسخ سجل الخطأ</span></button><a class="btn sec" target="_blank" rel="noopener" href="${run.html_url}">${ic('ext')}<span>فتح على GitHub</span></a></div>`;
   $('logv').textContent=text;lastErr=text;store.set('last_err',text);
-  nCancel([1001]);notify({id:1003,title:'فشل بناء التطبيق',body:full,channelId:'result',actionTypeId:'FAIL'});
+  endNotif();notify({id:1003,title:'فشل بناء التطبيق',body:full,channelId:'result',actionTypeId:'FAIL'});
   $('cpLog').onclick=async()=>{const ok=await copyText(text);toast(ok?'تم نسخ الخلل':'تعذّر النسخ');const b=$('cpLog');b.innerHTML=ic(ok?'check':'alert')+`<span>${ok?'تم النسخ':'تعذّر النسخ، حدّد النص يدوياً'}</span>`;setTimeout(()=>b.innerHTML=ic('copy')+'<span>نسخ سجل الخطأ</span>',2000)};
 }
+var BM=plug('BackgroundMode');
+var useBM=false;
+function bmSet(text){return BM?BM.setSettings({title:'جاري بناء التطبيق',text:text,channelName:'حالة البناء',channelDescription:'متابعة بناء التطبيق',color:'4f6bff',resume:true,hidden:false,silent:false,disableWebViewOptimization:true}).catch(function(){}):Promise.resolve()}
+async function bmStart(full){
+  if(!BM)return false;
+  try{
+    await bmSet(full);await BM.enable();await BM.disableWebViewOptimizations();
+    if(!store.get('bo_asked')){store.set('bo_asked','1');try{var b=await BM.checkBatteryOptimizations();if(!b.disabled)await BM.requestDisableBatteryOptimizations()}catch(e){}}
+    return true;
+  }catch(e){return false}
+}
+function endNotif(){nCancel([1001]);if(BM)BM.disable().catch(function(){});kvDel('pending_build')}
+async function resumePending(){
+  try{
+    var j=await kvGet('pending_build');if(!j)return;var p=JSON.parse(j);
+    if(Date.now()-p.t>3600000){await kvDel('pending_build');return}
+    hasBuild=true;showDone(p.full,p.branch,p.pagesOn,p.priv,p.sha,true);
+  }catch(e){}
+}
+
 async function watchBuild(full,sha){
   const id=++watchId,t0=Date.now(),limit=hasBuild?240:45;
   setBS('run','جاري بناء التطبيق','قد يستغرق 5 إلى 8 دقائق');apkReady(false);
-  nCancel([1002,1003]);let lastMin=-1;const bn=(b)=>notify({id:1001,title:'جاري بناء التطبيق',body:b,channelId:'build',ongoing:true,autoCancel:false});bn(full);
+  nCancel([1002,1003]);let lastMin=-1;
+  useBM=await bmStart(full);
+  const bn=(b)=>useBM?bmSet(b):notify({id:1001,title:'جاري بناء التطبيق',body:b,channelId:'build',ongoing:true,autoCancel:false});if(!useBM)bn(full);
   while(id===watchId){
     await sleep(7000);if(id!==watchId)return;
     const sec=Math.floor((Date.now()-t0)/1000);
@@ -578,7 +600,7 @@ async function watchBuild(full,sha){
     try{runs=((await gh(`/repos/${full}/actions/runs?head_sha=${sha}&per_page=20`)).workflow_runs||[]).filter(x=>x.event==='push'||x.event==='workflow_dispatch')}catch(e){}
     if(!runs.length){
       if(sec>limit){
-        nCancel([1001]);
+        endNotif();
         if(hasBuild)setBS('err','لم يبدأ البناء','تأكد أن GitHub Actions مفعّل في المشروع');
         else{setBS('ok','تم الرفع','لا يوجد بناء تلقائي لهذا المشروع');apkReady(false,true)}
         return;
@@ -586,17 +608,18 @@ async function watchBuild(full,sha){
       continue;
     }
     if(runs.some(x=>x.status!=='completed')){
-      if(sec>2400){nCancel([1001]);setBS('err','البناء يستغرق وقتاً طويلاً','تابعه من صفحة Actions');return}
+      if(sec>2400){endNotif();setBS('err','البناء يستغرق وقتاً طويلاً','تابعه من صفحة Actions');return}
       const mn=Math.floor(sec/60);if(mn!==lastMin){lastMin=mn;bn(`${full} · ${mn} د`)}
       setBS('run','جاري بناء التطبيق',`الوقت المنقضي ${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`);continue;
     }
     const bad=runs.find(x=>x.conclusion!=='success'&&x.conclusion!=='skipped');
-    if(!bad){setBS('ok','اكتمل البناء','التطبيق جاهز للتحميل');apkReady(true);nCancel([1001]);notify({id:1002,title:'اكتمل بناء التطبيق',body:full,channelId:'result',actionTypeId:'OK',extra:{url:APKURL}});return}
+    if(!bad){setBS('ok','اكتمل البناء','التطبيق جاهز للتحميل');apkReady(true);endNotif();notify({id:1002,title:'اكتمل بناء التطبيق',body:full,channelId:'result',actionTypeId:'OK',extra:{url:APKURL}});return}
     await showFail(full,bad);return;
   }
 }
 
-function showDone(full,branch,pagesOn,priv,sha){
+function showDone(full,branch,pagesOn,priv,sha,resumed){
+  if(!resumed)kvSet('pending_build',JSON.stringify({full:full,branch:branch,pagesOn:pagesOn,priv:priv,sha:sha,t:Date.now()}));
   $('bsx').innerHTML='';APKURL=`https://github.com/${full}/releases/latest/download/app.apk`;
   const [o,n]=full.split('/');
   const items=[];
