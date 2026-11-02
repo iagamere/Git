@@ -188,7 +188,7 @@ async function gh(path,opt={}){
   return r.status===204?null:r.json();
 }
 var NATIVE=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform());
-function plug(n){try{return NATIVE?Capacitor.registerPlugin(n):null}catch(e){return null}}
+function plug(n){try{if(!NATIVE)return null;var P=Capacitor.Plugins;if(P&&P[n])return P[n];if(typeof Capacitor.registerPlugin==='function')return Capacitor.registerPlugin(n)}catch(e){}return null}
 var CLIENT_ID_DEFAULT='Ov23lishfKw8GEIfE078';
 var cid=()=>CLIENT_ID_DEFAULT||store.get('gh_cid')||'';
 var devTimer=null,devCancel=true;
@@ -627,6 +627,7 @@ async function onPick(){pickedFile=null;await showPicked($('zip').files[0])}
 $('zip').addEventListener('change',onPick);$('zip').addEventListener('input',onPick);
 var pickData=false;
 async function nativePick(){
+  if(!FP){$('e4').textContent='مكوّن اختيار الملفات غير متوفر في هذا الإصدار';return}
   try{
     const r=await FP.pickFiles({limit:1,readData:pickData});
     const f=r.files&&r.files[0];if(!f)return;
@@ -636,16 +637,17 @@ async function nativePick(){
       blob=new Blob([u]);
     }else{
       const res=await fetch(Capacitor.convertFileSrc(f.path));
-      if(!res.ok)throw new Error('read');
+      if(!res.ok)throw new Error('read '+res.status);
       blob=await res.blob();
     }
     if(!blob.size)throw new Error('empty');
     pickedFile=new File([blob],f.name||'project.zip',{type:'application/zip'});
     await showPicked(pickedFile);
   }catch(e){
-    if(e&&/cancel/i.test(String(e.message||e)))return;
-    if(!pickData){pickData=true;$('e4').textContent='تعذّرت القراءة، اضغط لاختيار الملف مرة ثانية'}
-    else $('e4').textContent='تعذّرت قراءة الملف، جرّب نقله إلى مجلد Download'
+    const msg=String((e&&e.message)||e);
+    if(/cancel/i.test(msg))return;
+    if(!pickData){pickData=true;$('e4').textContent='تعذّرت القراءة ('+msg+')، اضغط مرة ثانية'}
+    else $('e4').textContent='تعذّرت قراءة الملف: '+msg;
   }
 }
 if(NATIVE){$('zip').classList.add('hid');$('drop').addEventListener('click',nativePick)}
