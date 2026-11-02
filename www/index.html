@@ -173,10 +173,13 @@ ol.st{padding:0 18px 0 0;margin:6px 0 10px;font-size:.86rem;color:var(--mu)}
 </main>
 <div class="toast" id="toast"></div>
 <script>
-const $=s=>document.getElementById(s);
-let token='',user=null,repos=[],mode='',zipFile=null;
-const ic=(n,c='')=>`<svg class="ic ${c}"><use href="#i-${n}"/></svg>`;
-const store={get:k=>{try{return localStorage.getItem(k)}catch{return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch{}},del:k=>{try{localStorage.removeItem(k)}catch{}}};
+function showErr(m){try{var t=document.getElementById('toast');t.textContent='خطأ: '+m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},9000)}catch(_){}}
+window.addEventListener('error',function(e){showErr(e.message)});
+window.addEventListener('unhandledrejection',function(e){showErr(e.reason&&e.reason.message||e.reason)});
+var $=s=>document.getElementById(s);
+var token='',user=null,repos=[],mode='',zipFile=null;
+var ic=(n,c='')=>`<svg class="ic ${c}"><use href="#i-${n}"/></svg>`;
+var store={get:k=>{try{return localStorage.getItem(k)}catch{return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch{}},del:k=>{try{localStorage.removeItem(k)}catch{}}};
 
 function go(n){for(let i=1;i<=5;i++)$('s'+i).classList.toggle('hid',i!==n);$('out').classList.toggle('hid',!user);[...$('steps').children].forEach((e,i)=>e.classList.toggle('on',i<Math.min(n,4)||n===5))}
 async function gh(path,opt={}){
@@ -184,10 +187,11 @@ async function gh(path,opt={}){
   if(!r.ok){let m='';try{m=(await r.json()).message}catch{}const e=new Error(m||('HTTP '+r.status));e.status=r.status;throw e}
   return r.status===204?null:r.json();
 }
-const NATIVE=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform());
-const CLIENT_ID_DEFAULT='Ov23lishfKw8GEIfE078';
-const cid=()=>CLIENT_ID_DEFAULT||store.get('gh_cid')||'';
-let devTimer=null,devCancel=true;
+var NATIVE=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform());
+function plug(n){try{return NATIVE?Capacitor.registerPlugin(n):null}catch(e){return null}}
+var CLIENT_ID_DEFAULT='Ov23lishfKw8GEIfE078';
+var cid=()=>CLIENT_ID_DEFAULT||store.get('gh_cid')||'';
+var devTimer=null,devCancel=true;
 function toggleTok(){$('tokBox').classList.toggle('hid')}
 function saveCid(){
   const v=$('cid').value.trim();
@@ -229,11 +233,11 @@ async function startDevice(){
   }
 }
 
-const PREF=NATIVE?Capacitor.registerPlugin('Preferences'):null;
+var PREF=plug('Preferences');
 async function kvGet(k){if(PREF){try{const r=await PREF.get({key:k});if(r.value!=null)return r.value}catch(e){}}return store.get(k)}
 async function kvSet(k,v){store.set(k,v);if(PREF){try{await PREF.set({key:k,value:v})}catch(e){}}}
 async function kvDel(k){store.del(k);if(PREF){try{await PREF.remove({key:k})}catch(e){}}}
-let pendingToken='';
+var pendingToken='';
 async function login(t,silent){
   token=(typeof t==='string'?t:$('tok').value).trim();$('e1').textContent='جاري التحقق...';$('retryBox').classList.add('hid');
   if(!token){$('e1').textContent='أدخل التوكن';return}
@@ -262,7 +266,7 @@ async function loadRepos(){
     repos.push(...r);if(r.length<100)break;
   }
 }
-let sel='';
+var sel='';
 function fillRepos(){
   const q=$('q').value.toLowerCase(),box=$('repoSel');box.innerHTML='';
   repos.filter(r=>r.name.toLowerCase().includes(q)).forEach(r=>{
@@ -281,7 +285,7 @@ async function pickMode(m){
     fillRepos();
   }
 }
-let target=null;
+var target=null;
 function step3(){
   $('e3').textContent='';
   if(mode==='update'){
@@ -294,11 +298,11 @@ function step3(){
   }
   go(4);
 }
-const log=t=>{$('log').textContent+=t+'\n';$('log').scrollTop=1e9};
-const prog=p=>{$('bi').style.width=p+'%'};
+var log=t=>{$('log').textContent+=t+'\n';$('log').scrollTop=1e9};
+var prog=p=>{$('bi').style.width=p+'%'};
 
-const dirOf=p=>p.includes('/')?p.slice(0,p.lastIndexOf('/')):'.';
-const shortest=a=>a.sort((x,y)=>x.split('/').length-y.split('/').length)[0];
+var dirOf=p=>p.includes('/')?p.slice(0,p.lastIndexOf('/')):'.';
+var shortest=a=>a.sort((x,y)=>x.split('/').length-y.split('/').length)[0];
 function detect(paths){
   const f=re=>shortest(paths.filter(p=>re.test(p)));let p;
   if(p=f(/(^|\/)pubspec\.yaml$/))return{t:'flutter',dir:dirOf(p),label:'Flutter'};
@@ -474,14 +478,14 @@ async function upload(){
   }finally{$('upBtn').disabled=false}
 }
 
-let watchId=0,hasBuild=false,APKURL='';
-const sleep=ms=>new Promise(r=>{const t=setTimeout(d,ms);function d(){clearTimeout(t);removeEventListener('wake',d);r()}addEventListener('wake',d)});
-const wake=()=>dispatchEvent(new Event('wake'));
+var watchId=0,hasBuild=false,APKURL='';
+var sleep=ms=>new Promise(r=>{const t=setTimeout(d,ms);function d(){clearTimeout(t);removeEventListener('wake',d);r()}addEventListener('wake',d)});
+var wake=()=>dispatchEvent(new Event('wake'));
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)wake()});
-try{if(NATIVE)Capacitor.registerPlugin('App').addListener('appStateChange',e=>{if(e.isActive)wake()})}catch(e){}
+try{var APPP=plug('App');if(APPP)Promise.resolve(APPP.addListener('appStateChange',function(e){if(e.isActive)wake()})).catch(function(){})}catch(e){}
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200)}
-let lastErr='',notifOK=false;
-const LN=NATIVE?Capacitor.registerPlugin('LocalNotifications'):null;
+var lastErr='',notifOK=false;
+var LN=plug('LocalNotifications');
 async function ensureNotif(){
   if(!LN||notifOK)return;
   try{
@@ -495,13 +499,13 @@ async function ensureNotif(){
     }
   }catch(e){}
 }
-const notify=o=>{if(LN&&notifOK)LN.schedule({notifications:[o]}).catch(()=>{})};
-const nCancel=ids=>{if(LN)LN.cancel({notifications:ids.map(id=>({id}))}).catch(()=>{})};
-if(LN)LN.addListener('localNotificationActionPerformed',async e=>{
+var notify=o=>{if(LN&&notifOK)LN.schedule({notifications:[o]}).catch(()=>{})};
+var nCancel=ids=>{if(LN)LN.cancel({notifications:ids.map(id=>({id}))}).catch(()=>{})};
+if(LN)Promise.resolve(LN.addListener('localNotificationActionPerformed',async e=>{
   const ex=(e.notification&&e.notification.extra)||{};
   if(e.actionId==='download'&&ex.url)downloadApk(ex.url);
   else if(e.actionId==='copy'){await sleep(700);const ok=await copyText(lastErr||store.get('last_err')||'');toast(ok?'تم نسخ الخلل':'تعذّر النسخ')}
-});
+})).catch(()=>{});
 function setBS(kind,title,sub){
   const el=$('bs');el.className='bs '+kind;
   el.innerHTML=(kind==='run'?'<div class="sp"></div>':'<div class="tile">'+ic(kind==='ok'?'check':'alert')+'</div>')+`<div><b>${title}</b><small>${sub||''}</small></div>`;
@@ -518,8 +522,8 @@ function buildLogText(head,log){
   const tail=lines.slice(-120);
   return (head+'\n--- errors ---\n'+errs.join('\n')+'\n\n--- last lines ---\n'+tail.join('\n')).slice(0,15000);
 }
-let dlBusy=false;
-const FS=NATIVE?Capacitor.registerPlugin('Filesystem'):null,FO=NATIVE?Capacitor.registerPlugin('FileOpener'):null;
+var dlBusy=false;
+var FS=plug('Filesystem'),FO=plug('FileOpener');
 function setDl(p,txt){$('dbar').classList.toggle('hid',p===null);if(p!==null)$('dbi').style.width=p+'%';$('apkLbl').textContent=txt||'تحميل التطبيق (APK)'}
 async function downloadApk(url){
   url=url||APKURL;
@@ -610,8 +614,8 @@ function showDone(full,branch,pagesOn,priv,sha){
   go(5);
   watchBuild(full,sha);
 }
-let pickedFile=null;
-const FP=NATIVE?Capacitor.registerPlugin('FilePicker'):null;
+var pickedFile=null;
+var FP=plug('FilePicker');
 async function showPicked(f){
   $('e4').textContent='';$('drop').classList.toggle('has',!!f);
   if(!f){$('zname').textContent='اضغط لاختيار ملف ZIP';return}
@@ -621,7 +625,7 @@ async function showPicked(f){
 }
 async function onPick(){pickedFile=null;await showPicked($('zip').files[0])}
 $('zip').addEventListener('change',onPick);$('zip').addEventListener('input',onPick);
-let pickData=false;
+var pickData=false;
 async function nativePick(){
   try{
     const r=await FP.pickFiles({limit:1,readData:pickData});
