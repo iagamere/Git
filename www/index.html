@@ -70,6 +70,10 @@ button{font:inherit}
 .lk .u{display:block;direction:ltr;text-align:left;color:var(--pr);font-size:.76rem;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-decoration:none}
 .lk .act{display:flex;gap:6px}
 .fl{transform:scaleX(-1)}
+.seg{display:flex;background:var(--in);border:1px solid var(--bd);border-radius:13px;padding:4px;margin:10px 0 6px}
+.seg button{flex:1;border:0;background:none;color:var(--mu);padding:10px;border-radius:10px;font-weight:700}
+.seg button.on{background:linear-gradient(135deg,var(--pr),var(--pr2));color:#fff}
+.adv{margin:4px 0 8px}.adv summary{cursor:pointer;color:var(--mu);font-size:.9rem;padding:8px 0}
 .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:.88rem;opacity:0;pointer-events:none;transition:.25s;z-index:9}
 .toast.on{opacity:1}
 .bs{display:flex;gap:12px;align-items:center;padding:14px;border-radius:15px;border:1px solid var(--bd);background:var(--in);margin:8px 0 10px}
@@ -92,7 +96,7 @@ ol.st{padding:0 18px 0 0;margin:6px 0 10px;font-size:.86rem;color:var(--mu)}
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></symbol><symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol><symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3L21 2"/><path d="M17 6l3 3"/></symbol><symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/><path d="M3 12A9 9 0 0 1 18.5 5.8L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol><symbol id="i-repo" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></symbol><symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol><symbol id="i-activity" viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></symbol><symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></symbol><symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M10 14L20 4"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol><symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4"/><path d="M16 8l4 4-4 4"/><path d="M20 12H9"/></symbol><symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></symbol><symbol id="i-zip" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M10 12h2M10 15h2M10 18h2"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></symbol></svg>
 <main>
 <header>
-  <div class="brand"><div class="logo"><svg class="ic "><use href="#i-box"/></svg></div><div><h1>رافع GitHub</h1><p class="sub">من ملف ZIP إلى تطبيق جاهز</p></div></div>
+  <div class="brand"><div class="logo"><svg class="ic "><use href="#i-box"/></svg></div><div><h1>رافع GitHub</h1><p class="sub">تطبيقاتك ومواقعك على GitHub</p></div></div>
   <button class="ib hid" id="out" onclick="logout()" aria-label="خروج"><svg class="ic "><use href="#i-logout"/></svg></button>
 </header>
 <div class="steps" id="steps"><i></i><i></i><i></i><i></i></div>
@@ -126,42 +130,38 @@ ol.st{padding:0 18px 0 0;margin:6px 0 10px;font-size:.86rem;color:var(--mu)}
 </section>
 
 <section class="card hid" id="s2">
-  <div class="who"><img id="av" alt=""><div><h2 id="hello"></h2><p class="sub">ماذا تريد أن تفعل؟</p></div></div>
+  <div class="who"><img id="av" alt=""><div><h2 id="hello"></h2><p class="sub">ماذا تريد أن ترفع؟</p></div></div>
   <div class="modes">
-    <button class="mode" onclick="pickMode('update')"><div class="tile"><svg class="ic "><use href="#i-refresh"/></svg></div><div><b>تحديث مشروع</b><small>ارفع نسخة جديدة فوق مشروع موجود</small></div></button>
-    <button class="mode" onclick="pickMode('new')"><div class="tile"><svg class="ic "><use href="#i-plus"/></svg></div><div><b>مشروع جديد</b><small>أنشئ مستودعاً جديداً وابدأ منه</small></div></button>
+    <button class="mode" onclick="pickKind('app')"><div class="tile"><svg class="ic "><use href="#i-phone"/></svg></div><div><b>رفع تطبيق (APK)</b><small>مشروع أندرويد أو Flutter أو ويب يتحوّل إلى تطبيق</small></div></button>
+    <button class="mode" onclick="pickKind('site')"><div class="tile"><svg class="ic "><use href="#i-globe"/></svg></div><div><b>نشر موقع HTML</b><small>استضافة مجانية على GitHub ورابط عام لموقعك</small></div></button>
   </div>
 </section>
 
 <section class="card hid" id="s3">
-  <div id="updBox">
-    <h2>اختر المشروع</h2>
+  <h2 id="upTitle"></h2>
+  <div class="seg"><button id="segNew" class="on" onclick="setMode('new')">مشروع جديد</button><button id="segUpd" onclick="setMode('update')">تحديث مشروع</button></div>
+  <div id="newBox">
+    <input id="newName" placeholder="project-name" dir="ltr">
+    <label class="opt" id="privOpt"><input type="checkbox" id="priv"><span>مشروع خاص (Private)</span></label>
+    <p class="mu hid" id="pubNote">الاستضافة المجانية تتطلب أن يكون المشروع عاماً (Public).</p>
+  </div>
+  <div id="updBox" class="hid">
     <input id="q" placeholder="بحث..." dir="ltr" oninput="fillRepos()">
     <div class="list" id="repoSel"></div>
   </div>
-  <div id="newBox" class="hid">
-    <h2>مشروع جديد</h2>
-    <input id="newName" placeholder="project-name" dir="ltr">
-    <label class="opt"><input type="checkbox" id="priv"><span>مشروع خاص (Private)</span></label>
-  </div>
-  <div class="row"><button class="btn sec" onclick="go(2)"><svg class="ic "><use href="#i-arrow"/></svg><span>رجوع</span></button><button class="btn" onclick="step3()"><span>التالي</span><svg class="ic fl"><use href="#i-arrow"/></svg></button></div>
-  <p class="err" id="e3"></p>
-</section>
-
-<section class="card hid" id="s4">
-  <h2>ملف المشروع</h2>
   <div class="drop" id="drop"><div class="tile"><svg class="ic "><use href="#i-zip"/></svg></div><span id="zname">اضغط لاختيار ملف ZIP</span><input type="file" id="zip" class="fin"></div>
-  <label class="opt"><input type="checkbox" id="replace"><span>حذف الملفات القديمة واستبدالها بالكامل</span></label>
-  <label class="opt"><input type="checkbox" id="pages" checked><span>تفعيل رابط التطبيق (GitHub Pages)</span></label>
-  <label class="opt"><input type="checkbox" id="autoapk" checked><span>بناء APK تلقائياً حسب نوع المشروع</span></label>
-  <input id="msg" placeholder="رسالة التحديث (اختياري)">
-  <div class="row"><button class="btn sec" onclick="go(3)"><svg class="ic "><use href="#i-arrow"/></svg><span>رجوع</span></button><button class="btn" id="upBtn" onclick="upload()"><svg class="ic "><use href="#i-upload"/></svg><span>رفع</span></button></div>
+  <details class="adv"><summary>خيارات متقدمة</summary>
+    <label class="opt"><input type="checkbox" id="replace"><span>حذف الملفات القديمة واستبدالها بالكامل</span></label>
+    <label class="opt" id="apkOpt"><input type="checkbox" id="autoapk" checked><span>بناء APK تلقائياً حسب نوع المشروع</span></label>
+    <input id="msg" placeholder="رسالة التحديث (اختياري)">
+  </details>
+  <div class="row"><button class="btn sec" onclick="go(2)"><svg class="ic "><use href="#i-arrow"/></svg><span>رجوع</span></button><button class="btn" id="upBtn" onclick="upload()"><svg class="ic "><use href="#i-upload"/></svg><span>رفع</span></button></div>
   <div class="bar hid" id="bar"><i id="bi"></i></div>
   <div id="log"></div>
   <p class="err" id="e4"></p>
 </section>
 
-<section class="card hid" id="s5">
+<section class="card hid" id="s4">
   <div class="done"><div class="tile"><svg class="ic "><use href="#i-check"/></svg></div><div><h2>تم الرفع بنجاح</h2><p class="sub" id="note"></p></div></div>
   <div class="bs" id="bs"></div>
   <div id="bsx"></div>
@@ -177,11 +177,12 @@ function showErr(m){try{var t=document.getElementById('toast');t.textContent='خ
 window.addEventListener('error',function(e){showErr(e.message)});
 window.addEventListener('unhandledrejection',function(e){showErr(e.reason&&e.reason.message||e.reason)});
 var $=s=>document.getElementById(s);
+var kind='app';
 var token='',user=null,repos=[],mode='',zipFile=null;
 var ic=(n,c='')=>`<svg class="ic ${c}"><use href="#i-${n}"/></svg>`;
 var store={get:k=>{try{return localStorage.getItem(k)}catch{return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch{}},del:k=>{try{localStorage.removeItem(k)}catch{}}};
 
-function go(n){for(let i=1;i<=5;i++)$('s'+i).classList.toggle('hid',i!==n);$('out').classList.toggle('hid',!user);[...$('steps').children].forEach((e,i)=>e.classList.toggle('on',i<Math.min(n,4)||n===5))}
+function go(n){for(let i=1;i<=4;i++)$('s'+i).classList.toggle('hid',i!==n);$('out').classList.toggle('hid',!user);[...$('steps').children].forEach((e,i)=>e.classList.toggle('on',i<n))}
 async function gh(path,opt={}){
   const r=await fetch('https://api.github.com'+path,{...opt,headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json','Content-Type':'application/json'}});
   if(!r.ok){let m='';try{m=(await r.json()).message}catch{}const e=new Error(m||('HTTP '+r.status));e.status=r.status;throw e}
@@ -275,29 +276,28 @@ function fillRepos(){
     b.onclick=()=>{sel=r.full_name;fillRepos()};box.appendChild(b);
   });
 }
-async function pickMode(m){
-  mode=m;$('e3').textContent='';
-  $('updBox').classList.toggle('hid',m!=='update');$('newBox').classList.toggle('hid',m!=='new');
-  go(3);
+
+var target=null;
+function pickKind(k){
+  kind=k;pickedFile=null;try{$('zip').value=''}catch(e){}showPicked(null);
+  $('upTitle').textContent=k==='app'?'رفع تطبيق':'نشر موقع HTML';
+  $('apkOpt').classList.toggle('hid',k!=='app');
+  $('privOpt').classList.toggle('hid',k==='site');$('pubNote').classList.toggle('hid',k!=='site');
+  $('e4').textContent='';$('log').textContent='';$('bar').classList.add('hid');
+  setMode('new');go(3);
+}
+async function setMode(m){
+  mode=m;$('segNew').classList.toggle('on',m==='new');$('segUpd').classList.toggle('on',m==='update');
+  $('newBox').classList.toggle('hid',m!=='new');$('updBox').classList.toggle('hid',m!=='update');
   if(m==='update'&&!repos.length){
     $('repoSel').innerHTML='<p class="mu">جاري التحميل...</p>';
-    try{await loadRepos()}catch(e){$('e3').textContent=e.message}
-    fillRepos();
+    try{await loadRepos()}catch(e){$('e4').textContent=e.message}
   }
+  if(m==='update')fillRepos();
 }
-var target=null;
-function step3(){
-  $('e3').textContent='';
-  if(mode==='update'){
-    const v=sel;if(!v){$('e3').textContent='اختر مشروعاً';return}
-    target=repos.find(r=>r.full_name===v);
-  }else{
-    const n=$('newName').value.trim();
-    if(!/^[A-Za-z0-9._-]+$/.test(n)){$('e3').textContent='اسم غير صالح: أحرف إنجليزية وأرقام و - _ . فقط';return}
-    target={name:n,newRepo:true};
-  }
-  go(4);
-}
+async function fileToB64(f){const buf=new Uint8Array(await f.arrayBuffer());let s='';for(let i=0;i<buf.length;i+=0x8000)s+=String.fromCharCode.apply(null,buf.subarray(i,i+0x8000));return btoa(s)}
+
+
 var log=t=>{$('log').textContent+=t+'\n';$('log').scrollTop=1e9};
 var prog=p=>{$('bi').style.width=p+'%'};
 
@@ -393,23 +393,39 @@ jobs:
 
 async function upload(){
   $('e4').textContent='';$('log').textContent='';
+  const err=m=>{$('e4').textContent=m};
+  if(mode==='update'){if(!sel)return err('اختر المشروع من القائمة');target=repos.find(r=>r.full_name===sel)}
+  else{const nm=$('newName').value.trim();if(!/^[A-Za-z0-9._-]+$/.test(nm))return err('اسم المشروع غير صالح: أحرف إنجليزية وأرقام و - _ . فقط');target={name:nm,newRepo:true}}
   zipFile=pickedFile||$('zip').files[0];
-  if(!zipFile){$('e4').textContent='اختر ملف ZIP أولاً';return}
+  if(!zipFile)return err(kind==='site'?'اختر ملف ZIP أو HTML أولاً':'اختر ملف ZIP أولاً');
+  const isHtml=/\.html?$/i.test(zipFile.name||'');
+  if(isHtml&&kind!=='site')return err('هذا ملف HTML، اختر ملف ZIP للتطبيق');
   $('upBtn').disabled=true;$('bar').classList.remove('hid');prog(0);hasBuild=false;await ensureNotif();
   try{
     log('قراءة الملف...');
-    const z=await JSZip.loadAsync(zipFile);
+    let z;
+    if(isHtml){const b64=await fileToB64(zipFile);z={files:{'index.html':{dir:false,async:async()=>b64}}}}
+    else z=await JSZip.loadAsync(zipFile);
     let names=Object.keys(z.files).filter(n=>!z.files[n].dir&&!/(^|\/)(__MACOSX|\.DS_Store)(\/|$)/.test(n)&&!n.startsWith('.git/'));
     if(!names.length)throw new Error('الملف فارغ');
-    // إزالة المجلد الجذري الوحيد
     const roots=new Set(names.map(n=>n.split('/')[0]));
     const strip=(roots.size===1&&names.every(n=>n.includes('/')))?[...roots][0]+'/':'';
+    const outP=n=>strip?n.slice(strip.length):n;
     log(`${names.length} ملف`);
+    let renameFrom=null;
+    if(kind==='site'){
+      const ps=names.map(outP);
+      if(!ps.includes('index.html')){
+        const h=ps.filter(x=>/^[^/]+\.html?$/i.test(x));
+        if(h.length===1)renameFrom=names[ps.indexOf(h[0])];
+        else throw new Error('لم أجد ملف index.html في المشروع');
+      }
+    }
 
     let repo=target;
     if(target.newRepo){
       log('إنشاء المشروع...');
-      repo=await gh('/user/repos',{method:'POST',body:JSON.stringify({name:target.name,private:$('priv').checked,auto_init:true})});
+      repo=await gh('/user/repos',{method:'POST',body:JSON.stringify({name:target.name,private:kind==='site'?false:$('priv').checked,auto_init:true})});
     }
     const full=repo.full_name,branch=repo.default_branch||'main';
 
@@ -422,7 +438,6 @@ async function upload(){
     }
     const base=ref.object.sha;
 
-    // رفع الملفات (5 بالتوازي)
     log('رفع الملفات...');
     const tree=[];let done=0,i=0;
     async function worker(){
@@ -434,45 +449,54 @@ async function upload(){
           try{blob=await gh(`/repos/${full}/git/blobs`,{method:'POST',body:JSON.stringify({content:b64,encoding:'base64'})});break}
           catch(e){if(++tries>3)throw new Error(`فشل رفع ${n}: ${e.message}`);await new Promise(r=>setTimeout(r,1000*tries))}
         }
-        tree.push({path:strip?n.slice(strip.length):n,mode:'100644',type:'blob',sha:blob.sha});
+        tree.push({path:n===renameFrom?'index.html':outP(n),mode:'100644',type:'blob',sha:blob.sha});
         prog(Math.round(++done/names.length*85));
       }
     }
     await Promise.all(Array.from({length:5},worker));
 
-    hasBuild=names.some(n=>/(^|\/)\.github\/workflows\//.test(n));
-    if($('autoapk').checked){
-      const paths=names.map(n=>strip?n.slice(strip.length):n);
-      if(paths.some(x=>x.startsWith('.github/workflows/')))log('يوجد ملف بناء في المشروع، تُرك كما هو');
-      else{
-        const d=detect(paths);
-        if(d){
-          const yml=workflow(d);
-          const bl=await gh(`/repos/${full}/git/blobs`,{method:'POST',body:JSON.stringify({content:btoa(unescape(encodeURIComponent(yml))),encoding:'base64'})});
-          tree.push({path:'.github/workflows/build-apk.yml',mode:'100644',type:'blob',sha:bl.sha});
-          hasBuild=true;log(`نوع المشروع: ${d.label} — أُضيف ملف بناء APK`);
-        }else log('لم أتعرف على نوع المشروع، لم يُضف بناء APK');
+    if(kind==='site'){
+      if(!tree.some(x=>x.path==='.nojekyll')){
+        const nb=await gh(`/repos/${full}/git/blobs`,{method:'POST',body:JSON.stringify({content:'',encoding:'utf-8'})});
+        tree.push({path:'.nojekyll',mode:'100644',type:'blob',sha:nb.sha});
+      }
+    }else{
+      hasBuild=names.some(n=>/(^|\/)\.github\/workflows\//.test(n));
+      if($('autoapk').checked){
+        const paths=names.map(outP);
+        if(paths.some(x=>x.startsWith('.github/workflows/')))log('يوجد ملف بناء في المشروع، تُرك كما هو');
+        else{
+          const d=detect(paths);
+          if(d){
+            const yml=workflow(d);
+            const bl=await gh(`/repos/${full}/git/blobs`,{method:'POST',body:JSON.stringify({content:btoa(unescape(encodeURIComponent(yml))),encoding:'base64'})});
+            tree.push({path:'.github/workflows/build-apk.yml',mode:'100644',type:'blob',sha:bl.sha});
+            hasBuild=true;log(`نوع المشروع: ${d.label} — أُضيف ملف بناء APK`);
+          }else log('لم أتعرف على نوع المشروع، لم يُضف بناء APK');
+        }
       }
     }
 
     log('بناء الإصدار...');
     const body={tree};
     if(!$('replace').checked&&!target.newRepo)body.base_tree=base;
-    else if(target.newRepo)body.base_tree=base,0;
+    else if(target.newRepo)body.base_tree=base;
     const t=await gh(`/repos/${full}/git/trees`,{method:'POST',body:JSON.stringify(body)});
     const msg=$('msg').value.trim()||(target.newRepo?'Initial upload':'Update')+' via Uploader';
     const c=await gh(`/repos/${full}/git/commits`,{method:'POST',body:JSON.stringify({message:msg,tree:t.sha,parents:[base]})});
     await gh(`/repos/${full}/git/refs/heads/${branch}`,{method:'PATCH',body:JSON.stringify({sha:c.sha})});
     prog(92);
 
-    let pagesOn=false;
-    if($('pages').checked){
-      log('تفعيل GitHub Pages...');
-      try{await gh(`/repos/${full}/pages`,{method:'POST',body:JSON.stringify({source:{branch,path:'/'}})});pagesOn=true}
-      catch(e){pagesOn=(e.status===409||e.status===422)}
+    let pagesErr='',siteUrl='';
+    if(kind==='site'){
+      log('تفعيل الاستضافة...');
+      try{await gh(`/repos/${full}/pages`,{method:'POST',body:JSON.stringify({source:{branch,path:'/'}})})}
+      catch(e){if(e.status!==409&&e.status!==422)pagesErr=e.message||('HTTP '+e.status)}
+      const [o,nm]=full.split('/');
+      siteUrl=`https://${o.toLowerCase()}.github.io/${nm.toLowerCase()===o.toLowerCase()+'.github.io'?'':nm+'/'}`;
     }
     prog(100);
-    showDone(full,branch,pagesOn,repo.private,c.sha);
+    showDone({kind,full,branch,sha:c.sha,priv:repo.private,siteUrl,pagesErr});
   }catch(e){
     $('e4').textContent=''+e.message;
   }finally{$('upBtn').disabled=false}
@@ -495,7 +519,7 @@ async function ensureNotif(){
     if(notifOK){
       await LN.createChannel({id:'build',name:'حالة البناء',importance:2,vibration:false});
       await LN.createChannel({id:'result',name:'نتيجة البناء',importance:4,vibration:true});
-      await LN.registerActionTypes({types:[{id:'OK',actions:[{id:'download',title:'تحميل التطبيق'}]},{id:'FAIL',actions:[{id:'copy',title:'نسخ الخلل'}]}]});
+      await LN.registerActionTypes({types:[{id:'OK',actions:[{id:'download',title:'تحميل التطبيق'}]},{id:'FAIL',actions:[{id:'copy',title:'نسخ الخلل'}]},{id:'SITE',actions:[{id:'open',title:'فتح الموقع'}]}]});
     }
   }catch(e){}
 }
@@ -504,6 +528,7 @@ var nCancel=ids=>{if(LN)LN.cancel({notifications:ids.map(id=>({id}))}).catch(()=
 if(LN)Promise.resolve(LN.addListener('localNotificationActionPerformed',async e=>{
   const ex=(e.notification&&e.notification.extra)||{};
   if(e.actionId==='download'&&ex.url)downloadApk(ex.url);
+  else if(e.actionId==='open'&&ex.url)window.open(ex.url,'_blank');
   else if(e.actionId==='copy'){await sleep(700);const ok=await copyText(lastErr||store.get('last_err')||'');toast(ok?'تم نسخ الخلل':'تعذّر النسخ')}
 })).catch(()=>{});
 function setBS(kind,title,sub){
@@ -540,15 +565,23 @@ async function downloadApk(url){
   }catch(e){toast('تعذّر التحميل داخل التطبيق، سيفتح المتصفح');window.open(url,'_blank')}
   finally{try{h&&h.remove()}catch(e){}setTimeout(()=>{setDl(null);dlBusy=false},1200)}
 }
-$('apkBtn').addEventListener('click',e=>{if(NATIVE){e.preventDefault();downloadApk()}});
+$('apkBtn').addEventListener('click',e=>{if(NATIVE&&kind==='app'){e.preventDefault();downloadApk()}});
 
 async function copyText(t){
   try{await navigator.clipboard.writeText(t);return true}catch{}
   try{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();const ok=document.execCommand('copy');a.remove();return ok}catch{return false}
 }
+function renderFail(full,text,openUrl,what,sub){
+  setBS('err','فشل '+what,sub||'');
+  apkReady(false);
+  $('bsx').innerHTML=`<pre class="logv" id="logv"></pre><div class="row"><button class="btn" id="cpLog">${ic('copy')}<span>نسخ سجل الخطأ</span></button><a class="btn sec" target="_blank" rel="noopener" href="${openUrl}">${ic('ext')}<span>فتح على GitHub</span></a></div>`;
+  $('logv').textContent=text;lastErr=text;store.set('last_err',text);
+  endNotif();notify({id:1003,title:'فشل '+what,body:full,channelId:'result',actionTypeId:'FAIL'});
+  $('cpLog').onclick=async()=>{const ok=await copyText(text);toast(ok?'تم نسخ الخلل':'تعذّر النسخ');const b=$('cpLog');b.innerHTML=ic(ok?'check':'alert')+`<span>${ok?'تم النسخ':'تعذّر النسخ، حدّد النص يدوياً'}</span>`;setTimeout(()=>b.innerHTML=ic('copy')+'<span>نسخ سجل الخطأ</span>',2000)};
+}
 async function showFail(full,run){
   setBS('err','فشل البناء','جاري قراءة سجل الخطأ...');
-  let head=`Build failed: ${full}\nWorkflow: ${run.name}\nRun: ${run.html_url}\n`,text=head;
+  let head=`Build failed: ${full}\nWorkflow: ${run.name}\nRun: ${run.html_url}\n`,text=head,sub='';
   try{
     const jobs=(await gh(`/repos/${full}/actions/runs/${run.id}/jobs`)).jobs||[];
     const job=jobs.find(j=>j.conclusion==='failure')||jobs[0];
@@ -559,21 +592,41 @@ async function showFail(full,run){
     try{const r=await fetch(`https://api.github.com/repos/${full}/actions/jobs/${job.id}/logs`,{headers:{Authorization:'Bearer '+token}});if(r.ok)log=await r.text()}catch(e){}
     if(log)text=buildLogText(head,log);
     else{try{const an=await gh(`/repos/${full}/check-runs/${job.id}/annotations`);text=head+'\n'+an.map(a=>`${a.annotation_level}: ${a.message}`).join('\n')}catch(e){}}
-    setBS('err','فشل البناء',step?`في الخطوة: ${step.name}`:'');
-  }catch(e){setBS('err','فشل البناء','تعذّر قراءة السجل')}
-  apkReady(false);
-  $('bsx').innerHTML=`<pre class="logv" id="logv"></pre><div class="row"><button class="btn" id="cpLog">${ic('copy')}<span>نسخ سجل الخطأ</span></button><a class="btn sec" target="_blank" rel="noopener" href="${run.html_url}">${ic('ext')}<span>فتح على GitHub</span></a></div>`;
-  $('logv').textContent=text;lastErr=text;store.set('last_err',text);
-  endNotif();notify({id:1003,title:'فشل بناء التطبيق',body:full,channelId:'result',actionTypeId:'FAIL'});
-  $('cpLog').onclick=async()=>{const ok=await copyText(text);toast(ok?'تم نسخ الخلل':'تعذّر النسخ');const b=$('cpLog');b.innerHTML=ic(ok?'check':'alert')+`<span>${ok?'تم النسخ':'تعذّر النسخ، حدّد النص يدوياً'}</span>`;setTimeout(()=>b.innerHTML=ic('copy')+'<span>نسخ سجل الخطأ</span>',2000)};
+    sub=step?`في الخطوة: ${step.name}`:'';
+  }catch(e){sub='تعذّر قراءة السجل'}
+  renderFail(full,text,run.html_url,'بناء التطبيق',sub);
+}
+async function watchSite(full,sha,pagesErr){
+  const id=++watchId,t0=Date.now();
+  nCancel([1002,1003]);
+  if(pagesErr){renderFail(full,'Pages setup failed: '+full+'\n'+pagesErr+'\nالاستضافة المجانية تتطلب مشروعاً عاماً (Public).','https://github.com/'+full+'/settings/pages','نشر الموقع','تعذّر تفعيل الاستضافة');return}
+  setBS('run','جاري نشر الموقع','يستغرق عادةً أقل من دقيقتين');apkReady(false);
+  useBM=await bmStart(full,'جاري نشر الموقع');
+  const bn=b=>useBM?bmSet(b,'جاري نشر الموقع'):notify({id:1001,title:'جاري نشر الموقع',body:b,channelId:'build',ongoing:true,autoCancel:false});
+  if(!useBM)bn(full);
+  while(id===watchId){
+    await sleep(5000);if(id!==watchId)return;
+    const sec=Math.floor((Date.now()-t0)/1000);
+    let b=null;try{b=await gh(`/repos/${full}/pages/builds/latest`)}catch(e){}
+    const mine=b&&(!b.commit||b.commit===sha||sec>60);
+    if(b&&mine&&b.status==='built'){
+      setBS('ok','تم نشر الموقع','قد يحتاج ظهوره دقيقة إضافية');apkReady(true);
+      endNotif();notify({id:1002,title:'تم نشر موقعك',body:APKURL,channelId:'result',actionTypeId:'SITE',extra:{url:APKURL}});return;
+    }
+    if(b&&mine&&b.status==='errored'){
+      renderFail(full,'Pages build failed: '+full+'\n'+((b.error&&b.error.message)||'unknown error'),'https://github.com/'+full+'/actions','نشر الموقع','فشل بناء الصفحات');return;
+    }
+    if(sec>600){endNotif();setBS('err','النشر يستغرق وقتاً طويلاً','تحقق من إعدادات Pages في المشروع');return}
+    setBS('run','جاري نشر الموقع',`الوقت المنقضي ${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`);
+  }
 }
 var BM=plug('BackgroundMode');
 var useBM=false;
-function bmSet(text){return BM?BM.setSettings({title:'جاري بناء التطبيق',text:text,channelName:'حالة البناء',channelDescription:'متابعة بناء التطبيق',color:'4f6bff',resume:true,hidden:false,silent:false,disableWebViewOptimization:true}).catch(function(){}):Promise.resolve()}
-async function bmStart(full){
+function bmSet(text,title){return BM?BM.setSettings({title:title||'جاري بناء التطبيق',text:text,channelName:'حالة البناء',channelDescription:'متابعة البناء والنشر',color:'4f6bff',resume:true,hidden:false,silent:false,disableWebViewOptimization:true}).catch(function(){}):Promise.resolve()}
+async function bmStart(full,title){
   if(!BM)return false;
   try{
-    await bmSet(full);await BM.enable();await BM.disableWebViewOptimizations();
+    await bmSet(full,title);await BM.enable();await BM.disableWebViewOptimizations();
     if(!store.get('bo_asked')){store.set('bo_asked','1');try{var b=await BM.checkBatteryOptimizations();if(!b.disabled)await BM.requestDisableBatteryOptimizations()}catch(e){}}
     return true;
   }catch(e){return false}
@@ -583,7 +636,7 @@ async function resumePending(){
   try{
     var j=await kvGet('pending_build');if(!j)return;var p=JSON.parse(j);
     if(Date.now()-p.t>3600000){await kvDel('pending_build');return}
-    hasBuild=true;showDone(p.full,p.branch,p.pagesOn,p.priv,p.sha,true);
+    hasBuild=true;showDone(p,true);
   }catch(e){}
 }
 
@@ -618,31 +671,39 @@ async function watchBuild(full,sha){
   }
 }
 
-function showDone(full,branch,pagesOn,priv,sha,resumed){
-  if(!resumed)kvSet('pending_build',JSON.stringify({full:full,branch:branch,pagesOn:pagesOn,priv:priv,sha:sha,t:Date.now()}));
-  $('bsx').innerHTML='';APKURL=`https://github.com/${full}/releases/latest/download/app.apk`;
-  const [o,n]=full.split('/');
+function showDone(info,resumed){
+  const full=info.full,kd=info.kind||'app';kind=kd;
+  if(!resumed)kvSet('pending_build',JSON.stringify(Object.assign({t:Date.now()},info)));
+  $('bsx').innerHTML='';
   const items=[];
-  items.push(['phone','تحميل APK مباشر','يعمل بعد انتهاء البناء (نحو 5 دقائق)',`https://github.com/${full}/releases/latest/download/app.apk`,1]);
-  items.push(['download','تحميل المشروع (ZIP)','',`https://github.com/${full}/archive/refs/heads/${branch}.zip`]);
-  if(pagesOn)items.push(['globe','رابط التطبيق على الويب','',`https://${o.toLowerCase()}.github.io/${n}/`]);
-  items.push(['activity','متابعة البناء','Actions',`https://github.com/${full}/actions`]);
+  if(kd==='app'){
+    APKURL=`https://github.com/${full}/releases/latest/download/app.apk`;
+    $('apkBtn').innerHTML=ic('download')+'<span id="apkLbl">تحميل التطبيق (APK)</span>';
+    items.push(['phone','تحميل APK مباشر','يعمل بعد انتهاء البناء (نحو 5 دقائق)',APKURL,1]);
+    items.push(['download','تحميل المشروع (ZIP)','',`https://github.com/${full}/archive/refs/heads/${info.branch}.zip`]);
+    items.push(['activity','متابعة البناء','Actions',`https://github.com/${full}/actions`]);
+  }else{
+    APKURL=info.siteUrl;
+    $('apkBtn').innerHTML=ic('globe')+'<span id="apkLbl">فتح الموقع</span>';
+    items.push(['globe','رابط موقعك','يظهر خلال دقيقة أو دقيقتين',APKURL,1]);
+  }
   items.push(['repo','صفحة المشروع','',`https://github.com/${full}`]);
-  $('links').innerHTML=items.map(([i,t,sb,u,m],k)=>`<div class="lk${m?' main':''}"><div class="tile">${ic(i)}</div><div class="tx"><b>${t}</b>${sb?`<small>${sb}</small>`:''}<a class="u" target="_blank" rel="noopener" href="${u}">${u}</a></div><div class="act"><button class="ib" data-u="${u}" aria-label="نسخ">${ic('copy')}</button><a class="ib" target="_blank" rel="noopener" href="${u}" aria-label="فتح">${ic('ext')}</a></div></div>`).join('');
+  $('links').innerHTML=items.map(([i,t,sb,u,m])=>`<div class="lk${m?' main':''}"><div class="tile">${ic(i)}</div><div class="tx"><b>${t}</b>${sb?`<small>${sb}</small>`:''}<a class="u" target="_blank" rel="noopener" href="${u}">${u}</a></div><div class="act"><button class="ib" data-u="${u}" aria-label="نسخ">${ic('copy')}</button><a class="ib" target="_blank" rel="noopener" href="${u}" aria-label="فتح">${ic('ext')}</a></div></div>`).join('');
   $('links').querySelectorAll('button[data-u]').forEach(b=>b.onclick=()=>{
     try{navigator.clipboard.writeText(b.dataset.u)}catch{}
     b.innerHTML=ic('check');setTimeout(()=>b.innerHTML=ic('copy'),1500)});
-  $('note').textContent=priv?'المشروع خاص: الروابط تعمل لحسابك فقط':full;
+  $('note').textContent=info.priv&&kd==='app'?'المشروع خاص: الروابط تعمل لحسابك فقط':full;
   const ar=$('links').querySelector('.lk.main');if(ar){ar.id='apkRow';ar.classList.add('off')}
-  go(5);
-  watchBuild(full,sha);
+  go(4);
+  if(kd==='app')watchBuild(full,info.sha);else watchSite(full,info.sha,info.pagesErr);
 }
 var pickedFile=null;
 var FP=plug('FilePicker');
 async function showPicked(f){
   $('e4').textContent='';$('drop').classList.toggle('has',!!f);
-  if(!f){$('zname').textContent='اضغط لاختيار ملف ZIP';return}
+  if(!f){$('zname').textContent=kind==='site'?'اضغط لاختيار ملف ZIP أو HTML':'اضغط لاختيار ملف ZIP';return}
   $('zname').textContent=`${f.name} (${(f.size/1048576).toFixed(1)} MB)`;
+  if(kind==='site'&&/\.html?$/i.test(f.name||''))return;
   try{const b=new Uint8Array(await f.slice(0,2).arrayBuffer());if(b[0]!==0x50||b[1]!==0x4B)$('e4').textContent='هذا الملف ليس ZIP صالحاً'}
   catch(e){$('e4').textContent='تعذّرت قراءة الملف، جرّب اختياره مرة أخرى'}
 }
