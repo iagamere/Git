@@ -17,6 +17,8 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+      - name: Embed build number and repository (used by in-app updates)
+        run: sed -i "s/__BUILD__/${{ github.run_number }}/g; s#__REPO__#${{ github.repository }}#g" www/index.html
       - run: npm install --legacy-peer-deps
       - run: npx cap add android
       - name: Android manifest
@@ -35,14 +37,63 @@ jobs:
           open(p,'w').write(s)
           PY
           cat android/app/src/main/AndroidManifest.xml
+      - name: Share / Open-with receiver (HTML and ZIP files sent from other apps)
+        run: |
+          D=android/app/src/main/java/com/uploader/app
+          mkdir -p "$D"
+          cp native/MainActivity.java native/ShareReceiverPlugin.java "$D/"
+          python3 - <<'PY2'
+          p='android/app/src/main/AndroidManifest.xml'
+          s=open(p).read()
+          if 'android.intent.action.SEND' not in s:
+              T=['application/zip','application/x-zip-compressed','application/x-zip']
+              H=['text/html','application/xhtml+xml']
+              send=''.join('            <data android:mimeType="%s" />\n'%m for m in T+H+['application/octet-stream','text/plain'])
+              view=''.join('            <data android:mimeType="%s" />\n'%m for m in T+H)
+              f=('        <intent-filter>\n            <action android:name="android.intent.action.SEND" />\n'
+                 '            <category android:name="android.intent.category.DEFAULT" />\n'+send+'        </intent-filter>\n'
+                 '        <intent-filter>\n            <action android:name="android.intent.action.SEND_MULTIPLE" />\n'
+                 '            <category android:name="android.intent.category.DEFAULT" />\n'
+                 '            <data android:mimeType="*/*" />\n        </intent-filter>\n'
+                 '        <intent-filter>\n            <action android:name="android.intent.action.VIEW" />\n'
+                 '            <category android:name="android.intent.category.DEFAULT" />\n'
+                 '            <category android:name="android.intent.category.BROWSABLE" />\n'
+                 '            <data android:scheme="content" />\n            <data android:scheme="file" />\n'+view+'        </intent-filter>\n')
+              s=s.replace('</activity>',f+'    </activity>',1)
+          open(p,'w').write(s)
+          PY2
+          cat android/app/src/main/AndroidManifest.xml
+      - name: Version code (must grow with every build so updates install over the old app)
+        run: |
+          sed -i "s/versionCode 1/versionCode ${{ github.run_number }}/; s/versionName \"1.0\"/versionName \"1.${{ github.run_number }}\"/" android/app/build.gradle
+          grep -n "versionCode\|versionName" android/app/build.gradle
       - run: npx cap sync android
       - run: |
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
-      - run: cp android/app/build/outputs/apk/debug/app-debug.apk app.apk
+      - name: Name the APK after the project
+        run: |
+          NAME=$(basename "$GITHUB_REPOSITORY")
+          cp android/app/build/outputs/apk/debug/app-debug.apk "$NAME.apk"
+          echo "APK_FILE=$NAME.apk" >> "$GITHUB_ENV"
+      - name: Sign APK (stable key)
+        env:
+          KEY_B64: ${{ secrets.SIGN_KEY_B64 }}
+          CERT_B64: ${{ secrets.SIGN_CERT_B64 }}
+        run: |
+          if [ -z "$KEY_B64" ] || [ -z "$CERT_B64" ]; then echo "::warning::No signing key found, keeping the debug signature"; exit 0; fi
+          echo "$KEY_B64" | base64 -d > "$RUNNER_TEMP/key.pk8"
+          echo "$CERT_B64" | base64 -d > "$RUNNER_TEMP/cert.der"
+          AS=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)/apksigner
+          if "$AS" sign --key "$RUNNER_TEMP/key.pk8" --cert "$RUNNER_TEMP/cert.der" --out "$RUNNER_TEMP/signed.apk" "$APK_FILE" && "$AS" verify "$RUNNER_TEMP/signed.apk"; then
+            mv "$RUNNER_TEMP/signed.apk" "$APK_FILE"
+            echo "APK signed with the stable key"
+          else
+            echo "::warning::Signing failed, keeping the debug signature"
+          fi
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ github.run_number }}
-          name: Build ${{ github.run_number }}
-          files: app.apk
+          name: ${{ github.event.repository.name }} v${{ github.run_number }}
+          files: ${{ env.APK_FILE }}
